@@ -13,6 +13,6 @@ npm run start
 - It play alert notification at the initization
 - You need a prepared cart on your account
 
-## Contact
+## More info
 
 https://twitter.com/AMSTKO
