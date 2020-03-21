@@ -80,7 +80,7 @@ const cartTest = function() {
 
 const createBrowser = async () => {
     let browser = await puppeteer.launch({
-        headless: false,
+        headless: true,
         args: ['--lang=en-US,en'],
     });
 
