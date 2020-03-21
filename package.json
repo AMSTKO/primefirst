@@ -1,0 +1,32 @@
+{
+  "name": "primefirst",
+  "version": "1.0.0",
+  "description": "Prime First",
+  "main": "build/index.js",
+  "author": "amstko",
+  "scripts": {
+    "start": "node ./build/index.js",
+    "watch": "nodemon -e ts --exec \"npm run dev\"",
+    "build": "tsc && cp alert.mp3 build/alert.mp3",
+    "dev": "npm run clean && npm run build && npm run start",
+    "clean": "rm -rf \"./build\" && killall Chromium || echo \"No chromium instances killed\""
+  },
+  "devDependencies": {
+    "@types/dotenv": "^4.0.2",
+    "@types/node": "^13.1.4",
+    "@types/puppeteer": "^2.0.0",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^13.0.0",
+    "eslint-plugin-import": "^2.19.1",
+    "nodemon": "^2.0.2",
+    "tslint": "^5.20.1",
+    "tslint-config-airbnb": "^5.11.2",
+    "typescript": "^3.7.4"
+  },
+  "dependencies": {
+    "dayjs": "^1.8.23",
+    "dotenv": "^8.2.0",
+    "play-sound": "^1.1.3",
+    "puppeteer": "^2.0.0"
+  }
+}
