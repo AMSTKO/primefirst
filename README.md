@@ -9,3 +9,6 @@ npm install
 npm run build
 npm run start
 ```
+
+- It play alert notification at the initization
+- You need a prepared cart on your account
