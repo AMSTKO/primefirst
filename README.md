@@ -10,7 +10,7 @@ npm run build
 npm run start
 ```
 
-- It play alert notification at the initization
+- It play the alert notification at initialization
 - You need a prepared cart on your account
 
 ## More info
