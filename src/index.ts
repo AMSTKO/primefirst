@@ -130,7 +130,6 @@ const createBrowser = async () => {
     };
 };
 
-
 (async () => {
     log('init');
     Player.play('alert.mp3');
