@@ -17,7 +17,7 @@ const authenticate = function() {
         log(`auth ${process.env.EMAIL}`);
 
         const codeInput = await page.$('input[name="lsPostalCode"]');
-        await codeInput.type('75018', { delay: 100 });
+        await codeInput.type(process.env.POSTALCODE, { delay: 100 });
 
         const codeSubmit = await page.$('.a-button-input');
         await codeSubmit.click();
