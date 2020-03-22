@@ -6,18 +6,21 @@ import * as dayjs from 'dayjs';
 dotEnv.config();
 const Player = player();
 
+const BASE_URL = process.env.BASE_URL || 'https://primenow.amazon.fr'
+const POSTAL_CODE = process.env.POSTAL_CODE || '75018'
+
 const log = (message) => {
     console.log(dayjs().format('YYYY-MM-DD HH:mm:ss'), message);
 };
 
 const authenticate = function() {
-    return this.getPage('https://primenow.amazon.fr', async page => {
+    return this.getPage(BASE_URL, async page => {
         await page.waitForSelector('input[name="lsPostalCode"]');
 
         log(`auth ${process.env.EMAIL}`);
 
         const codeInput = await page.$('input[name="lsPostalCode"]');
-        await codeInput.type(process.env.POSTALCODE, { delay: 100 });
+        await codeInput.type(POSTAL_CODE, { delay: 100 });
 
         const codeSubmit = await page.$('.a-button-input');
         await codeSubmit.click();
@@ -45,7 +48,7 @@ const authenticate = function() {
 };
 
 const cartTest = function() {
-    return this.getPage('https://primenow.amazon.fr/cart', async page => {
+    return this.getPage(`${BASE_URL}/cart`, async page => {
         await page.waitForSelector('.cart-checkout-button');
 
         log('check cart');
@@ -126,7 +129,6 @@ const createBrowser = async () => {
         cartTest,
     };
 };
-
 
 (async () => {
     log('init');
