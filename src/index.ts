@@ -51,8 +51,6 @@ const cartTest = function() {
     return this.getPage(`${BASE_URL}/cart`, async page => {
         await page.waitForSelector('.cart-checkout-button');
 
-        log('check cart');
-
         const checkoutButton = await page.$('.cart-checkout-button a');
         await checkoutButton.click();
 
@@ -74,7 +72,7 @@ const cartTest = function() {
 
         if (deliveryOption) {
             Player.play('alert.mp3');
-            log('available!');
+            log('delivery options available');
         } else {
             log('unavailable');
         }
