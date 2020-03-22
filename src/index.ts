@@ -6,8 +6,8 @@ import * as dayjs from 'dayjs';
 dotEnv.config();
 const Player = player();
 
-const BASE_URL = process.env.BASE_URL || 'https://primenow.amazon.fr'
-const POSTAL_CODE = process.env.POSTAL_CODE || '75018'
+const BASE_URL = process.env.BASE_URL || 'https://primenow.amazon.fr';
+const POSTAL_CODE = process.env.POSTAL_CODE || '75018';
 
 const log = (message) => {
     console.log(dayjs().format('YYYY-MM-DD HH:mm:ss'), message);
