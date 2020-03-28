@@ -5,7 +5,7 @@ Delivery Slot Alert for Amazon Prime Now
 - Run commands bellow,
 
  1. `npm install`
- 2. run `npm run build_linux` or `npm run build windows`
+ 2. run `npm run build_linux` or `npm run build_windows`
  3. `npm run start`
 
 - It plays the alert notification at initialization
