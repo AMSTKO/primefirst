@@ -7,7 +7,8 @@
   "scripts": {
     "start": "node ./build/index.js",
     "watch": "nodemon -e ts --exec \"npm run dev\"",
-    "build": "tsc && cp alert.mp3 build/alert.mp3",
+    "build_linux": "tsc && cp alert.mp3 build/alert.mp3",
+    "build_windows": "tsc && copy alert.mp3 build/alert.mp3",
     "dev": "npm run clean && npm run build && npm run start",
     "clean": "rm -rf \"./build\" && killall Chromium || echo \"No chromium instances killed\""
   },
