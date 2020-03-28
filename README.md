@@ -4,13 +4,11 @@ Delivery Slot Alert for Amazon Prime Now
 - Create and edit `.env` file like `.env.local` (with your Amazon login)
 - Run commands bellow,
 
-```
-npm install
-npm run build
-npm run start
-```
+ 1. `npm install`
+ 2. run `npm run build_linux` or `npm run build windows`
+ 3. `npm run start`
 
-- It play the alert notification at initialization
+- It plays the alert notification at initialization
 - You need a prepared cart on your account
 
 ## More info
