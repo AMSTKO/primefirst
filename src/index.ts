@@ -16,7 +16,7 @@ const CHAT_ID = process.env.CHATID
 var client;
 
 if (TELEGRAM_NOTIFY) {
-    console.log("Activado telegram")
+    console.log("Telegram Notifications activated")
     console.log(TELEGRAM_NOTIFY)
     const { TelegramClient } = require('messaging-api-telegram');
     client = TelegramClient.connect(BOT_TOKEN);
