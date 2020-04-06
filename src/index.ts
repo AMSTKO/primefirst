@@ -9,6 +9,19 @@ const Player = player();
 const BASE_URL = process.env.BASE_URL || 'https://primenow.amazon.fr';
 const POSTAL_CODE = process.env.POSTAL_CODE || '75018';
 
+const TELEGRAM_NOTIFY = (process.env.TELEGRAM_NOTIFY == 'True');
+const BOT_TOKEN = process.env.BOTTOKEN
+const CHAT_ID = process.env.CHATID
+
+var client;
+
+if (TELEGRAM_NOTIFY) {
+    console.log("Activado telegram")
+    console.log(TELEGRAM_NOTIFY)
+    const { TelegramClient } = require('messaging-api-telegram');
+    client = TelegramClient.connect(BOT_TOKEN);
+}
+
 const log = (message) => {
     console.log(dayjs().format('YYYY-MM-DD HH:mm:ss'), message);
 };
@@ -73,6 +86,9 @@ const cartTest = function() {
         if (deliveryOption) {
             Player.play('alert.mp3');
             log('delivery options available');
+            if (TELEGRAM_NOTIFY) {
+                client.sendMessage(CHAT_ID, 'Delivery options available! : '+ BASE_URL)
+            }
         } else {
             log('unavailable');
         }
