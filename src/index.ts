@@ -2,12 +2,26 @@ import * as dotEnv from 'dotenv';
 import * as puppeteer from 'puppeteer';
 import * as player from 'play-sound';
 import * as dayjs from 'dayjs';
+import TelegramClient from 'messaging-api-telegram';
 
 dotEnv.config();
 const Player = player();
 
 const BASE_URL = process.env.BASE_URL || 'https://primenow.amazon.fr';
 const POSTAL_CODE = process.env.POSTAL_CODE || '75018';
+
+const TELEGRAM_NOTIFY = (process.env.TELEGRAM_NOTIFY == 'True');
+const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOTTOKEN
+const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHATID
+
+var client;
+
+if (TELEGRAM_NOTIFY) {
+    console.log("Telegram Notifications activated")
+    console.log(TELEGRAM_NOTIFY)
+    const { TelegramClient } = require('messaging-api-telegram');
+    client = TelegramClient.connect(TELEGRAM_BOT_TOKEN);
+}
 
 const log = (message) => {
     console.log(dayjs().format('YYYY-MM-DD HH:mm:ss'), message);
@@ -73,6 +87,9 @@ const cartTest = function() {
         if (deliveryOption) {
             Player.play('alert.mp3');
             log('delivery options available');
+            if (TELEGRAM_NOTIFY) {
+                client.sendMessage(TELEGRAM_CHAT_ID, 'Delivery options available! : '+ BASE_URL)
+            }
         } else {
             log('unavailable');
         }
