@@ -11,16 +11,16 @@ const BASE_URL = process.env.BASE_URL || 'https://primenow.amazon.fr';
 const POSTAL_CODE = process.env.POSTAL_CODE || '75018';
 
 const TELEGRAM_NOTIFY = (process.env.TELEGRAM_NOTIFY == 'True');
-const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOTTOKEN
-const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHATID
+const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOTTOKEN;
+const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHATID;
 
-var client;
+let telegramClient;
 
 if (TELEGRAM_NOTIFY) {
-    console.log("Telegram Notifications activated")
-    console.log(TELEGRAM_NOTIFY)
+    console.log("Telegram Notifications activated");
+    console.log(TELEGRAM_NOTIFY);
     const { TelegramClient } = require('messaging-api-telegram');
-    client = TelegramClient.connect(TELEGRAM_BOT_TOKEN);
+    telegramClient = TelegramClient.connect(TELEGRAM_BOT_TOKEN);
 }
 
 const log = (message) => {
@@ -88,7 +88,7 @@ const cartTest = function() {
             Player.play('alert.mp3');
             log('delivery options available');
             if (TELEGRAM_NOTIFY) {
-                client.sendMessage(TELEGRAM_CHAT_ID, 'Delivery options available! : '+ BASE_URL)
+                telegramClient.sendMessage(TELEGRAM_CHAT_ID, 'Delivery options available! : '+ BASE_URL)
             }
         } else {
             log('unavailable');
