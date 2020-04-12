@@ -21,6 +21,7 @@ if (TELEGRAM_NOTIFY) {
     console.log(TELEGRAM_NOTIFY);
     const { TelegramClient } = require('messaging-api-telegram');
     telegramClient = TelegramClient.connect(TELEGRAM_BOT_TOKEN);
+    telegramClient.sendMessage(TELEGRAM_CHAT_ID, 'Started Slot Finder for ' + BASE_URL + ' and Postal Code: ' + POSTAL_CODE)
 }
 
 const log = (message) => {
