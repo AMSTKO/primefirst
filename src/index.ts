@@ -13,21 +13,21 @@ const BASE_URL = process.env.BASE_URL || 'https://primenow.amazon.fr';
 const POSTAL_CODE = process.env.POSTAL_CODE || '75018';
 
 const TELEGRAM_NOTIFY = (process.env.TELEGRAM_NOTIFY == 'True');
-const BOT_TOKEN = process.env.BOTTOKEN;
-const CHAT_ID = process.env.CHATID;
-const NOTIFICATION_DELAY = parseInt(process.env.NOTIFICATION_DELAY) || 300000;
+const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOTTOKEN;
+const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHATID;
+const TELEGRAM_NOTIFICATION_DELAY = parseInt(process.env.TELEGRAM_NOTIFICATIONDELAY) || 300000;
 const TELEGRAM_MESSAGE = process.env.TELEGRAM_MESSAGE || "Delivery options available!"
 const CHECKDELIVERY_DELAY = parseInt(process.env.CHECKDELIVERY_DELAY) || 30000
-const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOTTOKEN
-const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHATID
 
-var client;
+let telegramClient;
 var last_notification_dt = new Date(0);
 
 if (TELEGRAM_NOTIFY) {
-    console.log("Telegram notifications active!")
+    console.log("Telegram Notifications activated");
+    console.log(TELEGRAM_NOTIFY);
     const { TelegramClient } = require('messaging-api-telegram');
-    client = TelegramClient.connect(TELEGRAM_BOT_TOKEN);
+    telegramClient = TelegramClient.connect(TELEGRAM_BOT_TOKEN);
+    telegramClient.sendMessage(TELEGRAM_CHAT_ID, 'Started Slot Finder for ' + BASE_URL + ' and Postal Code: ' + POSTAL_CODE)
 }
 
 const reader = require("readline-sync");
@@ -149,7 +149,7 @@ const cartTest = function() {
         var merchant_count = 0
         let allMerchants = await page.evaluate(() => Array.from(document.querySelectorAll('.a-button.a-button-normal.a-button-primary.cart-checkout-button'), element => element.className.split(" ")[4]));
         if (allMerchants.length > 0) {
-            for (let merchantOption of allMerchants) {
+            for (let merchantOption of allMerchants) {  
                 merchant_count = merchant_count +1
                 log (`${merchant_count} of ${allMerchants.length}: Checking merchant: ${merchantOption}`);
               
@@ -182,9 +182,9 @@ const cartTest = function() {
                     if (TELEGRAM_NOTIFY) {
                         // Control telegram notifications
                         var dt = new Date();
-                        if ( dt.getTime() - last_notification_dt.getTime() > NOTIFICATION_DELAY) {
+                        if ( dt.getTime() - last_notification_dt.getTime() > TELEGRAM_NOTIFICATION_DELAY) {
                             last_notification_dt = new Date();
-                            client.sendMessage(CHAT_ID, TELEGRAM_MESSAGE +'[' + merchantOption + ']' + ' ' + BASE_URL)
+                            telegramClient.sendMessage(TELEGRAM_CHAT_ID, TELEGRAM_MESSAGE +'[' + merchantOption + ']' + ' ' + BASE_URL)
                         }
                     }
                 } else {
@@ -197,17 +197,19 @@ const cartTest = function() {
                     await page.goto(`${BASE_URL}/cart`);
                     await page.waitForNavigation()
                 }
-        if (deliveryOption) {
-            Player.play('alert.mp3');
-            log('delivery options available');
-            if (TELEGRAM_NOTIFY) {
-                client.sendMessage(TELEGRAM_CHAT_ID, 'Delivery options available! : '+ BASE_URL)
+
+                if (deliveryOption) {
+                    Player.play('alert.mp3');
+                    log('delivery options available');
+                    if (TELEGRAM_NOTIFY) {
+                        telegramClient.sendMessage(TELEGRAM_CHAT_ID, 'Delivery options available! : '+ BASE_URL)
+                    }
+                }
             }
         } else {
             log("Checkout not available, check your cart");
             return false;
         }
-
     });
 };
 
