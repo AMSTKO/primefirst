@@ -4,6 +4,7 @@ import * as player from 'play-sound';
 import * as dayjs from 'dayjs';
 import { exists } from 'fs';
 import { throws } from 'assert';
+import TelegramClient from 'messaging-api-telegram';
 
 dotEnv.config();
 const Player = player();
@@ -17,6 +18,8 @@ const CHAT_ID = process.env.CHATID;
 const NOTIFICATION_DELAY = parseInt(process.env.NOTIFICATION_DELAY) || 300000;
 const TELEGRAM_MESSAGE = process.env.TELEGRAM_MESSAGE || "Delivery options available!"
 const CHECKDELIVERY_DELAY = parseInt(process.env.CHECKDELIVERY_DELAY) || 30000
+const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOTTOKEN
+const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHATID
 
 var client;
 var last_notification_dt = new Date(0);
@@ -24,7 +27,7 @@ var last_notification_dt = new Date(0);
 if (TELEGRAM_NOTIFY) {
     console.log("Telegram notifications active!")
     const { TelegramClient } = require('messaging-api-telegram');
-    client = TelegramClient.connect(BOT_TOKEN);
+    client = TelegramClient.connect(TELEGRAM_BOT_TOKEN);
 }
 
 const reader = require("readline-sync");
@@ -194,6 +197,11 @@ const cartTest = function() {
                     await page.goto(`${BASE_URL}/cart`);
                     await page.waitForNavigation()
                 }
+        if (deliveryOption) {
+            Player.play('alert.mp3');
+            log('delivery options available');
+            if (TELEGRAM_NOTIFY) {
+                client.sendMessage(TELEGRAM_CHAT_ID, 'Delivery options available! : '+ BASE_URL)
             }
         } else {
             log("Checkout not available, check your cart");
